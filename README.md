@@ -1,21 +1,18 @@
-MakerBot Unicorn G-Code Output for Inkscape
+Plotter and Knife G-Code Output for Inkscape
 ===========================================
 
 Notice
 ------
 
-**This extension is no longer supported or maintained. The last tested version of Inkscape is 0.48.5.**
-
-**Please feel free to fork and improve this extension for your own needs!**
-
 This is an Inkscape extension that allows you to save your Inkscape drawings as
-G-Code files suitable for plotting with the [MakerBot Unicorn Pen Plotter](http://store.makerbot.com/makerbot-unicorn-pen-plotter-kit.html).
+G-Code files suitable for plotting with any 3D printer that has a pen or knife strapped to the hot end.
 
-**Users who use this extension to generate G-Code for a machine other than a MakerBot CupCake CNC with a Unicorn Pen Plotter attachment do so at their own risk.**
+**Work in progress.  Use at your own risk.**
 
-Author: [Marty McGuire](http://github.com/martymcguire)
-
+Original Author: [Marty McGuire](http://github.com/martymcguire)
 Website: [http://github.com/martymcguire/inkscape-unicorn](http://github.com/martymcguire/inkscape-unicorn)
+
+Modifications: Greg Zapf
 
 Credits
 =======
@@ -24,6 +21,7 @@ Credits
 * [Inkscape](http://www.inkscape.org/) is an awesome open source vector graphics app.
 * [Scribbles](https://github.com/makerbot/Makerbot/tree/master/Unicorn/Scribbles%20Scripts) is the original DXF-to-Unicorn Python script.
 * [The Egg-Bot Driver for Inkscape](http://code.google.com/p/eggbotcode/) provided inspiration and good examples for working with Inkscape's extensions API.
+* Greg Zapf altered the code to optimize for generic 3D printer use, moving the Z axis to perform cuts instead of servo commands.
 
 Install
 =======
@@ -48,22 +46,19 @@ Usage
 	* Choose **Path | Object to Path**.
 * Save as G-Code:
 	* **File | Save a Copy**.
-	* Select **MakerBot Unicorn G-Code (\*.gcode)**.
+	* Select **Plotter or Knife G-Code (\*.gcode)**.
 	* Save your file.
 * Preview
 	* For OS X, [Pleasant3D](http://www.pleasantsoftware.com/developer/pleasant3d/index.shtml) is great for this.
 	* For other operating systems... I don't know!
 * Print!
-	* Open your `.gcode` file in [ReplicatorG](http://replicat.org/)
-	* Set up your Unicorn and pen.
-	* Center your build platform.
-	* Click the **Build** button!
+	* Send your `.gcode` file to your printer (copy to SD Card, upload to Octoprint, etc)
+	* Set up your knife or pen, and affix an appropriate medium on the bed.
+	* Print!
 
 TODOs
 =====
 
-* Rename `*PolyLine` stuff to `*Path` to be less misleading.
-* Formalize "home" to be a reasonable place to change pages/pens.
-* Parameterize smoothness for curve approximation.
-* Use native curve G-Codes instead of converting to paths?
-* Include example templates?
+* Provide clean way to update header and footer.
+* Provide clean way to enter offset for cutter from printer's usual hot end.
+* Tutorials?
