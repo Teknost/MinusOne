@@ -54,6 +54,14 @@ class MyEffect(inkex.Effect):
                       action="store", type="float",
                       dest="z_height", default="0.0",
                       help="Z axis print height in mm")
+    self.OptionParser.add_option("--z-active",
+                      action="store", type="float",
+                      dest="z_active", default="0.0",
+                      help="Z axis cutting print height in mm")
+    self.OptionParser.add_option("--z-safe",
+                      action="store", type="float",
+                      dest="z_safe", default="3.0",
+                      help="Z axis travelling, not printing height in mm")
     self.OptionParser.add_option("--finished-height",
                       action="store", type="float",
                       dest="finished_height", default="0.0",
@@ -92,7 +100,8 @@ class MyEffect(inkex.Effect):
     self.context = GCodeContext(self.options.xy_feedrate, self.options.z_feedrate, 
                            self.options.start_delay, self.options.stop_delay,
                            self.options.pen_up_angle, self.options.pen_down_angle,
-                           self.options.z_height, self.options.finished_height,
+                           self.options.z_height, self.options.z_active,
+                           self.options.z_safe, self.options.finished_height,
                            self.options.x_home, self.options.y_home,
                            self.options.register_pen,
                            self.options.num_copies,
