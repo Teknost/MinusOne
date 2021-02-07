@@ -2,7 +2,7 @@ from math import *
 import sys
 
 class GCodeContext:
-    def __init__(self, xy_feedrate, z_feedrate, start_delay, stop_delay, pen_up_angle, pen_down_angle, z_height, finished_height, x_home, y_home, register_pen, num_pages, continuous, file):
+    def __init__(self, xy_feedrate, z_feedrate, start_delay, stop_delay, pen_up_angle, pen_down_angle, z_height, z_safe, z_active, finished_height, x_home, y_home, register_pen, num_pages, continuous, file):
       self.xy_feedrate = xy_feedrate
       self.z_feedrate = z_feedrate
       self.start_delay = start_delay
@@ -10,6 +10,8 @@ class GCodeContext:
       self.pen_up_angle = pen_up_angle
       self.pen_down_angle = pen_down_angle
       self.z_height = z_height
+      self.z_safe = z_safe
+      self.z_active = z_active
       self.finished_height = finished_height
       self.x_home = x_home
       self.y_home = y_home
@@ -111,13 +113,13 @@ class GCodeContext:
             print line
 
     def start(self):
-      self.codes.append("M300 S%0.2F (pen down)" % self.pen_down_angle)
-      self.codes.append("G4 P%d (wait %dms)" % (self.start_delay, self.start_delay))
+      self.codes.append("G1 Z%.2f F%.2f (pen down)" % (self.z_active, self.z_feedrate))
+      # self.codes.append("G4 P%d (wait %dms)" % (self.start_delay, self.start_delay))
       self.drawing = True
 
     def stop(self):
-      self.codes.append("M300 S%0.2F (pen up)" % self.pen_up_angle)
-      self.codes.append("G4 P%d (wait %dms)" % (self.stop_delay, self.stop_delay))
+      self.codes.append("G1 Z%.2f F%.2f (pen up)" % (self.z_safe, self.z_feedrate))
+      # self.codes.append("G4 P%d (wait %dms)" % (self.stop_delay, self.stop_delay))
       self.drawing = False
 
     def go_to_point(self, x, y, stop=False):
@@ -127,8 +129,8 @@ class GCodeContext:
         return
       else:
         if self.drawing: 
-            self.codes.append("M300 S%0.2F (pen up)" % self.pen_up_angle) 
-            self.codes.append("G4 P%d (wait %dms)" % (self.stop_delay, self.stop_delay))
+            self.codes.append("G1 Z%.2f F%.2f (pen up)" % (self.z_safe, self.z_feedrate))
+            # self.codes.append("G4 P%d (wait %dms)" % (self.stop_delay, self.stop_delay))
             self.drawing = False
         self.codes.append("G1 X%.2f Y%.2f F%.2f" % (x,y, self.xy_feedrate))
       self.last = (x,y)
@@ -140,8 +142,8 @@ class GCodeContext:
         return
       else:
         if self.drawing == False:
-            self.codes.append("M300 S%0.2F (pen down)" % self.pen_up_angle)
-            self.codes.append("G4 P%d (wait %dms)" % (self.start_delay, self.start_delay))
+            self.codes.append("G1 Z%.2f F%.2f (pen down)" % (self.z_active, self.z_feedrate))
+            # self.codes.append("G4 P%d (wait %dms)" % (self.start_delay, self.start_delay))
             self.drawing = True
         self.codes.append("G1 X%0.2f Y%0.2f F%0.2f" % (x,y, self.xy_feedrate))
       self.last = (x,y)
