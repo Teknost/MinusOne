@@ -2,7 +2,7 @@ from math import *
 import sys
 
 class GCodeContext:
-    def __init__(self, xy_feedrate, z_feedrate, start_delay, stop_delay, pen_up_angle, pen_down_angle, z_height, z_safe, z_active, finished_height, x_home, y_home, register_pen, num_pages, continuous, file):
+    def __init__(self, xy_feedrate, z_feedrate, start_delay, stop_delay, pen_up_angle, pen_down_angle, z_height, z_active, z_safe, finished_height, x_home, y_home, register_pen, num_pages, continuous, file):
       self.xy_feedrate = xy_feedrate
       self.z_feedrate = z_feedrate
       self.start_delay = start_delay
