@@ -1,7 +1,7 @@
-Plotter and Knife G-Code Output for Inkscape
+MinusOne: Inkscape G-Code output for using your 3D printer as a 2D plotter or drag knife
 ===========================================
 
-Notice
+Summary
 ------
 
 This is an Inkscape extension that allows you to save your Inkscape drawings as
