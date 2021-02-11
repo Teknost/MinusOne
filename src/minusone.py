@@ -20,8 +20,8 @@ import sys,os
 import inkex
 from math import *
 import getopt
-from unicorn.context import GCodeContext
-from unicorn.svg_parser import SvgParser
+from minusone.context import GCodeContext
+from minusone.svg_parser import SvgParser
 
 class MyEffect(inkex.Effect):
   def __init__(self):
@@ -97,7 +97,7 @@ class MyEffect(inkex.Effect):
     self.context.generate()
 
   def effect(self):
-    self.context = GCodeContext(self.options.xy_feedrate, self.options.z_feedrate, 
+    self.context = GCodeContext(self.options.xy_feedrate, self.options.z_feedrate,
                            self.options.start_delay, self.options.stop_delay,
                            self.options.pen_up_angle, self.options.pen_down_angle,
                            self.options.z_height, self.options.z_active,

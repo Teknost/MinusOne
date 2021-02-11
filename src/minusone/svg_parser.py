@@ -1,5 +1,6 @@
 import inkex, cubicsuperpath, simplepath, simplestyle, cspsubdiv
 from simpletransform import *
+# from lib import simpletransform
 from bezmisc import *
 import entities
 from math import radians
@@ -20,6 +21,9 @@ def parseLengthWithUnits( str ):
   elif s[-1:] == '%':
     u = '%'
     s = s[:-1]
+  elif s[-2:] == 'mm':
+    u = 'mm'
+    s = s[:-2]
   try:
     v = float( s )
   except:
@@ -201,6 +205,7 @@ class SvgParser:
     self.svg = svg
     self.pause_on_layer_change = pause_on_layer_change
     self.entities = []
+    self.units = ''
 
   def getLength( self, name, default ):
     '''
@@ -215,8 +220,13 @@ class SvgParser:
         # Couldn't parse the value
         return None
       elif ( u == '' ) or ( u == 'px' ):
+        self.units = 'px'
+        return v
+      elif ( u == 'mm' ):
+        self.units = 'mm'
         return v
       elif u == '%':
+        self.units = 'px'
         return float( default ) * v / 100.0
       else:
         # Unsupported units
@@ -226,14 +236,23 @@ class SvgParser:
       return float( default )
 
   def parse(self):
-    # 0.28222 scale determined by comparing pixels-per-mm in a default Inkscape file.
-    self.svgWidth = self.getLength('width', 354) * 0.28222
-    self.svgHeight = self.getLength('height', 354) * 0.28222
-    # Centered original version... good for Deltas?
+    if (self.units == 'px'):
+        # 0.28222 scale determined by comparing pixels-per-mm in a default Inkscape file.
+        scaler = 0.28222
+    else:
+        # oddly, this doesn't work for mm... maybe sizes are still px when saving mm files.
+        scaler = 1.0
+
+
+    self.svgWidth = self.getLength('width', 354) * scaler
+    self.svgHeight = self.getLength('height', 354) * scaler
+
+    # Original, seemingly good for delta printers?
     # self.recursivelyTraverseSvg(self.svg, [[0.28222, 0.0, -(self.svgWidth/2.0)], [0.0, -0.28222, (self.svgHeight/2.0)]])
 
-    # Bottom Left justified version, good for common printers
-    self.recursivelyTraverseSvg(self.svg, [[0.28222, 0.0, 0.0], [0.0, -0.28222, 0.0]])
+    # Bottom Left justified version, good for common cartesian printers
+    #self.recursivelyTraverseSvg(self.svg, [[scaler, 0.0, 0.0], [0.0, -scaler, self.svgHeight]])
+    self.recursivelyTraverseSvg(self.svg, [[(scaler), 0.0, 0.0], [0.0, (-1*scaler), self.svgHeight]])
 
   # TODO: center this thing
   def recursivelyTraverseSvg(self, nodeList,
