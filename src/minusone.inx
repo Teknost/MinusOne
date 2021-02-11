@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <inkscape-extension xmlns="http://www.inkscape.org/namespace/inkscape/extension">
-  <_name>Plotter or Knife G-Code Output</_name>
-  <id>com.makerbot.unicorn.gcode</id>
+  <_name>MinusOne Plotter or Knife G-Code Output</_name>
+  <id>com.teknost.minusone</id>
   <dependency type="extension">org.inkscape.output.svg.inkscape</dependency>
-  <dependency type="executable" location="extensions">unicorn.py</dependency>
+  <dependency type="executable" location="extensions">minusone.py</dependency>
   <dependency type="executable" location="extensions">inkex.py</dependency>
   <param name="tab" type="notebook">
     <page name="plotter_setup" _gui-text="Setup">
@@ -58,11 +58,11 @@ More Info: http://github.com/martymcguire/inkscape-unicorn/</_param>
   <output>
     <extension>.gcode</extension>
     <mimetype>application/x-gcode</mimetype>
-    <_filetypename>Plotter or Knife G-Code (*.gcode)</_filetypename>
+    <_filetypename>MinusOne Plotter or Knife G-Code (*.gcode)</_filetypename>
     <_filetypetooltip>Toolpath for 3D Printer used as Plotter or Drag Knife</_filetypetooltip>
     <dataloss>true</dataloss>
   </output>
   <script>
-    <command reldir="extensions" interpreter="python">unicorn.py</command>
+    <command reldir="extensions" interpreter="python">minusone.py</command>
   </script>
 </inkscape-extension>
