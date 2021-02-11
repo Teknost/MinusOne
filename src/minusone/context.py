@@ -19,29 +19,87 @@ class GCodeContext:
       self.num_pages = num_pages
       self.continuous = continuous
       self.file = file
-      
+
       self.drawing = False
       self.last = None
 
       self.preamble = [
         "(Scribbled version of %s @ %.2f)" % (self.file, self.xy_feedrate),
         "( %s )" % " ".join(sys.argv),
-        "G21 (metric ftw)",
-        "G90 (absolute mode)",
+		"M73 P0 R22",
+		"M73 Q0 S23",
+		"M201 X9000 Y9000 Z500 E10000 ; sets maximum accelerations, mm/sec^2",
+		"M203 X500 Y500 Z12 E120 ; sets maximum feedrates, mm/sec",
+		"M204 P1500 R1500 T1500 ; sets acceleration (P, T) and retract acceleration (R), mm/sec^2",
+		"M205 X10.00 Y10.00 Z0.20 E2.50 ; sets the jerk limits, mm/sec",
+		"M205 S0 T0 ; sets the minimum extruding and travel feed rate, mm/sec",
+		"",
+		";TYPE:Custom",
+		"G91; relative movements",
+		"G1 Z5 F9000; Z up 5mm",
+		"G90; back to absolute",
+		"",
+		"G28; home all axes",
+		"M420 S1; load leveling mesh",
+		"G0 Z5 F9000; lift nozzle",
+		"",
+		"G21 ; set units to millimeters",
+		"G90 ; use absolute coordinates",
+
+        "G0 X0 Y0 Z0",
         "G92 X%.2f Y%.2f Z%.2f (you are here)" % (self.x_home, self.y_home, self.z_height),
         ""
       ]
 
       self.postscript = [
         "",
-				"(end of print job)",
-				"M300 S%0.2F (pen up)" % self.pen_up_angle,
-				"G4 P%d (wait %dms)" % (self.stop_delay, self.stop_delay),
-				"M300 S255 (turn off servo)",
-				"G1 X0 Y0 F%0.2F" % self.xy_feedrate,
-				"G1 Z%0.2F F%0.2F (go up to finished level)" % (self.finished_height, self.z_feedrate),
-				"G1 X%0.2F Y%0.2F F%0.2F (go home)" % (self.x_home, self.y_home, self.xy_feedrate),
-				"M18 (drives off)",
+		"(end of print job)",
+		"G91; relative movements",
+		"G1 Z15 F9000; Z up 15mm",
+		"G90; back to absolute",
+        "G92.1; back to real coordinates",
+		"G0 X200 Y220 F9000; hot end toward park;",
+		"G0 Y230; Park nozzle",
+		"M84; disable motors",
+		"",
+		"",
+		";Pacman",
+		"M300 S987 P100",
+		"M300 S1975 P100",
+		"M300 S2959 P100",
+		"M300 S2489 P100",
+		"M300 S1975 P100",
+		"M300 S2959 P100",
+		"M300 S0 P133",
+		"M300 S2489 P133",
+		"M300 S2093 P100",
+		"M300 S4186 P100",
+		"M300 S3135 P100",
+		"M300 S2637 P100",
+		"M300 S4186 P100",
+		"M300 S3135 P100",
+		"M300 S0 P133",
+		"M300 S2637 P133",
+		"M300 S987 P100",
+		"M300 S1975 P100",
+		"M300 S2959 P100",
+		"M300 S2489 P100",
+		"M300 S1975 P100",
+		"M300 S2959 P100",
+		"M300 S0 P133",
+		"",
+		"",
+		"M73 P100 R0",
+		"M73 Q100 S0",
+        ""
+
+#				"M300 S%0.2F (pen up)" % self.pen_up_angle,
+#				"G4 P%d (wait %dms)" % (self.stop_delay, self.stop_delay),
+#				"M300 S255 (turn off servo)",
+#				"G1 X0 Y0 F%0.2F" % self.xy_feedrate,
+#				"G1 Z%0.2F F%0.2F (go up to finished level)" % (self.finished_height, self.z_feedrate),
+#				"G1 X%0.2F Y%0.2F F%0.2F (go home)" % (self.x_home, self.y_home, self.xy_feedrate),
+#				"M18 (drives off)",
       ]
 
       self.registration = [
@@ -128,13 +186,13 @@ class GCodeContext:
       if stop:
         return
       else:
-        if self.drawing: 
+        if self.drawing:
             self.codes.append("G1 Z%.2f F%.2f (pen up)" % (self.z_safe, self.z_feedrate))
             # self.codes.append("G4 P%d (wait %dms)" % (self.stop_delay, self.stop_delay))
             self.drawing = False
         self.codes.append("G1 X%.2f Y%.2f F%.2f" % (x,y, self.xy_feedrate))
       self.last = (x,y)
-	
+
     def draw_to_point(self, x, y, stop=False):
       if self.last == (x,y):
           return
