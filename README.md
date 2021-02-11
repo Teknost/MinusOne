@@ -2,7 +2,7 @@ MinusOne: Inkscape G-Code output for using your 3D printer as a 2D plotter or dr
 ===========================================
 
 Summary
-------
+=======
 
 This is an Inkscape extension that allows you to save your Inkscape drawings as
 G-Code files suitable for plotting with any 3D printer that has a pen or knife strapped to the hot end.
