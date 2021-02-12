@@ -27,15 +27,15 @@ When plotting, ReplicatorG will pause to ask if registration was successful. If 
       <param name="register-pen" type="boolean" _gui-text="Use Pen Registration Check">true</param>
     </page>
     <page name="homing" _gui-text="Homing">
-      <_param name="homing_help" type="description" xml:space="preserve">Where do you like to set your platform when you start a plot?
+      <_param name="homing_help" type="description" xml:space="preserve">Where is your cutter/pen in relation to machine zero?
 
 Some examples:
-- X = 0, Y = 0 if it starts centered under the pen.
-- X = 50, Y = 50 if it starts in the front-left corner of a Cupcake CNC.
+- X = 0, Y = 0 if your machine zeros naturally with the cutter where the hot end would be (i.e. swappable heads)
+- X = -20, Y = -40 if your cutter or pen is mounted 20mm left and 40mm in front of your nozzle.
 
 Note: Double-check the orientation of your axes when changing these values!</_param>
-      <param name="x-home" type="float" min="-100.00" max="100.00" _gui-text="Pen starts at X value:">0.00</param>
-      <param name="y-home" type="float" min="-100.00" max="100.00" _gui-text="Pen starts at Y value:">0.00</param>
+      <param name="x-home" type="float" min="-100.00" max="100.00" _gui-text="Pen starts at X value:">-20.00</param>
+      <param name="y-home" type="float" min="-100.00" max="100.00" _gui-text="Pen starts at Y value:">-40.00</param>
     </page>
     <page name="copies" _gui-text="Copies">
       <_param name="copies_help" type="description" xml:space="preserve">Add page-changing prompts so you can plot multiple copies!</_param>
