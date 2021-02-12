@@ -48,6 +48,7 @@ class GCodeContext:
 
         "G0 X0 Y0 Z0",
         "G92 X%.2f Y%.2f Z%.2f (you are here)" % (self.x_home, self.y_home, self.z_height),
+        "G0 Z%.2f" % (self.z_safe),
         ""
       ]
 
