@@ -1,4 +1,4 @@
-MinusOne: Inkscape G-Code output for using your 3D printer as a 2D plotter or drag knife
+MinusOne: Use your 3D printer as a 2D plotter or drag knife!
 ===========================================
 
 Summary
@@ -46,11 +46,11 @@ Usage
 	* Choose **Path | Object to Path**.
 * Save as G-Code:
 	* **File | Save a Copy**.
-	* Select **Plotter or Knife G-Code (\*.gcode)**.
+	* Select **MinusOne Plotter or Knife G-Code (\*.gcode)**.
 	* Save your file.
 * Preview
 	* For OS X, [Pleasant3D](http://www.pleasantsoftware.com/developer/pleasant3d/index.shtml) is great for this.
-	* For other operating systems... I don't know!
+	* [NC Viewer](https://ncviewer.com/) is a web based viewer that previews these non-extrusion g-code files nicely.
 * Print!
 	* Send your `.gcode` file to your printer (copy to SD Card, upload to Octoprint, etc)
 	* Set up your knife or pen, and affix an appropriate medium on the bed.
