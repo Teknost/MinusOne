@@ -67,4 +67,4 @@ TODOs
 * Try with Inkscape 1.x and adjust for compatibility if needed?
 * Tutorials?
 
-If you want any of these things,
+If you want any of these potential features, let me know in the [Discussions](./discussions) section!
