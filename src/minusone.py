@@ -44,8 +44,12 @@ class MyEffect(inkex.Effect):
                       help="Delay after pen up command before movement in milliseconds")
     self.OptionParser.add_option("--xy-feedrate",
                       action="store", type="float",
-                      dest="xy_feedrate", default="3500.0",
+                      dest="xy_feedrate", default="1000.0",
                       help="XY axes feedrate in mm/min")
+    self.OptionParser.add_option("--xy-rapidfeedrate",
+                      action="store", type="float",
+                      dest="xy_rapidfeedrate", default="9000.0",
+                      help="XY axes travel feedrate in mm/min")
     self.OptionParser.add_option("--z-feedrate",
                       action="store", type="float",
                       dest="z_feedrate", default="150.0",
@@ -97,7 +101,8 @@ class MyEffect(inkex.Effect):
     self.context.generate()
 
   def effect(self):
-    self.context = GCodeContext(self.options.xy_feedrate, self.options.z_feedrate,
+    self.context = GCodeContext(self.options.xy_feedrate,
+                           self.options.xy_rapidfeedrate, self.options.z_feedrate,
                            self.options.start_delay, self.options.stop_delay,
                            self.options.pen_up_angle, self.options.pen_down_angle,
                            self.options.z_height, self.options.z_active,

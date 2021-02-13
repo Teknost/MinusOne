@@ -2,8 +2,9 @@ from math import *
 import sys
 
 class GCodeContext:
-    def __init__(self, xy_feedrate, z_feedrate, start_delay, stop_delay, pen_up_angle, pen_down_angle, z_height, z_active, z_safe, finished_height, x_home, y_home, register_pen, num_pages, continuous, file):
+    def __init__(self, xy_feedrate, xy_rapidfeedrate, z_feedrate, start_delay, stop_delay, pen_up_angle, pen_down_angle, z_height, z_active, z_safe, finished_height, x_home, y_home, register_pen, num_pages, continuous, file):
       self.xy_feedrate = xy_feedrate
+      self.xy_rapidfeedrate = xy_rapidfeedrate
       self.z_feedrate = z_feedrate
       self.start_delay = start_delay
       self.stop_delay = stop_delay
@@ -191,7 +192,7 @@ class GCodeContext:
             self.codes.append("G1 Z%.2f F%.2f (pen up)" % (self.z_safe, self.z_feedrate))
             # self.codes.append("G4 P%d (wait %dms)" % (self.stop_delay, self.stop_delay))
             self.drawing = False
-        self.codes.append("G1 X%.2f Y%.2f F%.2f" % (x,y, self.xy_feedrate))
+        self.codes.append("G1 X%.2f Y%.2f F%.2f" % (x,y, self.xy_rapidfeedrate))
       self.last = (x,y)
 
     def draw_to_point(self, x, y, stop=False):
