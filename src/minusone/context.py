@@ -71,6 +71,37 @@ class GCodeContext:
         ""
       ]
 
+      self.intermission = [
+        "",
+        "(end of print job first pass)",
+        "G91; relative movements",
+        "G1 Z15 F9000; Z up 15mm",
+        "G90; back to absolute",
+        #Resetting based on native coordinates requires firmware option that's default off
+        #"G92.1; back to real coordinates",
+        "G0 X200 Y220 F9000; hot end toward park;",
+        "G0 Y230; Park nozzle",
+
+        ";StarTrek attention chime",
+        "M300 S4978 P41",
+        "M300 S5274 P41",
+        "M300 S6271 P41",
+        "M300 S4978 P41",
+        "M300 S6271 P41",
+        "M300 S4978 P41",
+        "M300 S5919 P41",
+        "M300 S5274 P41",
+        "M300 S5587 P41",
+        "M01 (Another pass? Reset to stop.)",
+		"",
+        "G0 X0 Y0",
+        "G0 Z0",
+        #Resetting based on native coordinates requires firmware option that's default off
+        #"G92 X%.2f Y%.2f Z%.2f (you are here)" % (self.x_home, self.y_home, self.z_height),
+        "G0 Z%.2f" % (self.z_safe),
+        ""
+      ]
+
       self.postscript = [
         "",
 		"(end of print job)",
@@ -173,7 +204,13 @@ class GCodeContext:
         codesets.append(self.sheet_header)
       elif self.register_pen == 'true':
         codesets.append(self.registration)
+
       codesets.append(self.codes)
+
+      #Insert intermission and second run
+      codesets.append(self.intermission)
+      codesets.append(self.codes)
+
       if (self.continuous == 'true' or self.num_pages > 1):
         codesets.append(self.sheet_footer)
 
